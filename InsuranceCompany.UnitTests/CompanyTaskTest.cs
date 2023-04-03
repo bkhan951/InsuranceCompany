@@ -25,7 +25,7 @@ namespace InsuranceCompany.UnitTests
         }
 
         [Test]
-        public void GetCompanyByIdTest()
+        public async Task GetCompanyByIdTest()
         {
             _companyRepositoryMock.Setup(repo => repo.GetById(1))
              .Returns(
@@ -35,15 +35,17 @@ namespace InsuranceCompany.UnitTests
 
             var companyTask = new CompanyTask(_logger.Object, _companyRepositoryMock.Object);
 
-            var result = companyTask.GetCompany(1);
+            var result = await companyTask.GetCompany(1);
 
             Assert.NotNull(result);
-            Assert.True(result.Result.Company.Id == 1);
-            Assert.True(result.Result.Company.Active == true);
-            Assert.True(result.Result.Company.InsuranceEndDate == DateTime.Parse("20/11/2023").Date);
-            Assert.True(result.Result.Company.Address.Country == "United Kingdom");
-            Assert.True(result.Result.Company.Address.Address3 == "Manchester");
-
+            Assert.Multiple(() =>
+            {
+                Assert.True(result.Company.Id == 1);
+                Assert.True(result.Company.Active == true);
+                Assert.True(result.Company.InsuranceEndDate == DateTime.Parse("20/11/2023").Date);
+                Assert.True(result.Company.Address.Country == "United Kingdom");
+                Assert.True(result.Company.Address.Address3 == "Manchester");
+            });
         }
     }
 }
