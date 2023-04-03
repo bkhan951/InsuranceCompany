@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using InsuranceCompany.Models;
 using InsuranceCompany.Interfaces;
+using InsuranceCompany.Clients;
+using System.ComponentModel.Design;
 
 namespace InsuranceCompany.Controllers
 {
@@ -23,7 +25,14 @@ namespace InsuranceCompany.Controllers
         {
             try
             {
-                return Ok(await _companyTask.GetCompany(id));
+                var response = await _companyTask.GetCompany(id);
+
+                if (response == null || response.Company == null)
+                {
+                    return BadRequest("Company does not exist!");
+                }
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

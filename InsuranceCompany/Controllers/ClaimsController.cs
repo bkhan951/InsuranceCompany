@@ -28,7 +28,14 @@ namespace InsuranceCompany.Controllers
                     return BadRequest("Request is invalid");
                 }
 
-                return Ok(await _claimTask.GetAllClaimsByCompanyId(companyId));
+                var response = await _claimTask.GetAllClaimsByCompanyId(companyId);
+
+                if (response == null || response.Count() == 0)
+                {
+                    return BadRequest("No claims found or company does not exist!");
+                }
+
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -47,14 +54,14 @@ namespace InsuranceCompany.Controllers
                     return BadRequest("Request is invalid");
                 }
 
-                var response = _claimTask.GetClaimByClaimReference(claimReference);
+                var response = await _claimTask.GetClaimByClaimReference(claimReference);
 
-                if (response == null || response.Result.Claims == null)
+                if (response == null || response.Claims == null)
                 {
                     return BadRequest("Claim not found!");
                 }
 
-                return Ok(await response);
+                return Ok(response);
             }
             catch (Exception ex)
             {

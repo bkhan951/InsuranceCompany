@@ -45,6 +45,7 @@ namespace InsuranceCompany.Repositories.Repository
                 existingClaim.CompanyId = claim.CompanyId;
                 existingClaim.Closed = claim.Closed;
                 existingClaim.IncurredLoss = claim.IncurredLoss;
+                existingClaim.ClaimType = claim.ClaimType;
                 Success = true;
             }
 
