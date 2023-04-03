@@ -4,10 +4,10 @@ namespace InsuranceCompany.Repositories.IRepository
 {
     public interface IClaimsRepository : IRepository<Claim>
     {
-        IEnumerable<Claim> GetAllClaimsByCompanyId(int companyId);
+        Task<IEnumerable<Claim>> GetAllClaimsByCompanyId(int companyId);
 
-        Claim GetbyUniqueClaimReference(string ClaimReference);
+        Task<Claim> GetbyClaimReference(string ClaimReference);
 
-        bool UpdateClaim(string claimReference, Claim claim);
+        Task<bool> UpdateClaim(string claimReference, Claim claim);
     }
 }

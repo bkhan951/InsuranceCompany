@@ -5,11 +5,11 @@ namespace InsuranceCompany.DataContracts
     public class CompanyResponse
     {
         public Company Company { get; set; }
-        public bool Active
+        public bool HasActiveInsurancePolicy
         {
             get
             {
-                return Company.InsuranceEndDate != DateTime.MinValue && Company.InsuranceEndDate > DateTime.Now ? true : false;
+                return Company != null && Company.InsuranceEndDate != DateTime.MinValue && Company.InsuranceEndDate > DateTime.Now ? true : false;
             }
         }
     }

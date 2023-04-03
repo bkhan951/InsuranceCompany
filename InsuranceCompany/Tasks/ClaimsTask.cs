@@ -16,25 +16,25 @@ namespace InsuranceCompany.Clients
             _logger = logger;
             _claimsRepository = claimsRepository;
         }
-        public List<Claim> GetAllClaimsByCompanyId(int id)
+        public async Task<List<Claim>> GetAllClaimsByCompanyId(int id)
         {
-            return _claimsRepository.GetAllClaimsByCompanyId(id).ToList();
+            return  _claimsRepository.GetAllClaimsByCompanyId(id).Result.ToList();
         }
 
-        public ClaimsResponse GetClaimByClaimReference(string claimReference)
+        public async Task<ClaimsResponse> GetClaimByClaimReference(string claimReference)
         {
             var response = new ClaimsResponse()
             {
-                Claims = _claimsRepository.GetbyUniqueClaimReference(claimReference)
+                Claims = await _claimsRepository.GetbyClaimReference(claimReference)
             };
 
             response.TotalNumberOfDays = response.Claims != null ? Math.Round((DateTime.Now.Date - response.Claims.ClaimDate).TotalDays, MidpointRounding.ToZero) : 0;
-            return response;
+            return  response;
         }
 
-        public UpdateClaimsResponse UpdateClaim(UpdateClaimsRequest request)
+        public async Task<UpdateClaimsResponse> UpdateClaim(UpdateClaimsRequest request)
         {
-            return new UpdateClaimsResponse() { Success = _claimsRepository.UpdateClaim(request.ClaimReference, request.Claims) };
+            return new UpdateClaimsResponse() { Success = await _claimsRepository.UpdateClaim(request.ClaimReference, request.Claims) };
         }
     }
 }

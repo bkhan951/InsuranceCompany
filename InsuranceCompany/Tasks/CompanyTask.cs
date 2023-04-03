@@ -16,11 +16,11 @@ namespace InsuranceCompany.Clients
             _companyRepository = companyRepository;
         }
 
-        public CompanyResponse GetCompany(int id)
+        public async Task<CompanyResponse> GetCompany(int id)
         {
-            return new CompanyResponse()
+            return  new CompanyResponse()
             {
-                Company = _companyRepository.GetById(id)
+                Company = await _companyRepository.GetById(id)
             };
         }
     }

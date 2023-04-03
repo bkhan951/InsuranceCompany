@@ -5,11 +5,11 @@ namespace InsuranceCompany.Interfaces
 {
     public interface IClaimsTask
     {
-        List<Claim> GetAllClaimsByCompanyId(int id);
+        Task<List<Claim>> GetAllClaimsByCompanyId(int id);
 
-        ClaimsResponse GetClaimByClaimReference(string claimReference);
+        Task<ClaimsResponse> GetClaimByClaimReference(string claimReference);
 
-        UpdateClaimsResponse UpdateClaim(UpdateClaimsRequest request);
+        Task<UpdateClaimsResponse> UpdateClaim(UpdateClaimsRequest request);
 
     }
 }

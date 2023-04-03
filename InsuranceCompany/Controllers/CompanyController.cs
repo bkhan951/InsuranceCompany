@@ -19,11 +19,11 @@ namespace InsuranceCompany.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult GetCompany(int id)
+        public async Task<ActionResult> GetCompany(int id)
         {
             try
             {
-                return Ok(_companyTask.GetCompany(id));
+                return Ok(await _companyTask.GetCompany(id));
             }
             catch (Exception ex)
             {

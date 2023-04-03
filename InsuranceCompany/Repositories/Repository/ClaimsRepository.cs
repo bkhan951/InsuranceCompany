@@ -12,27 +12,27 @@ namespace InsuranceCompany.Repositories.Repository
         {
             _dataHelpers = dataHelpers;
         }
-        public Claim GetById(int id)
+        public async Task<Claim> GetById(int id)
         {
             return _dataHelpers.claims.FirstOrDefault(x => x.Id == id);
         }
 
-        public Claim GetbyUniqueClaimReference(string claimReference)
+        public async Task<Claim> GetbyClaimReference(string claimReference)
         {
             return _dataHelpers.claims.FirstOrDefault(x => x.ClaimReference.Equals(claimReference.Trim(), StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public List<Claim> List()
+        public async Task<List<Claim>> List()
         {
             return _dataHelpers.claims;
         }
 
-        public IEnumerable<Claim> GetAllClaimsByCompanyId(int companyId)
+        public async Task<IEnumerable<Claim>> GetAllClaimsByCompanyId(int companyId)
         {
             return _dataHelpers.claims.Where(x => x.CompanyId.Equals(companyId));
         }
 
-        public bool UpdateClaim(string claimReference, Claim claim)
+        public async Task<bool> UpdateClaim(string claimReference, Claim claim)
         {
             var existingClaim = _dataHelpers.claims.FirstOrDefault(x => x.ClaimReference.Equals(claim.ClaimReference));
             bool Success = false;

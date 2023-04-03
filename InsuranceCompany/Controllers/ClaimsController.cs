@@ -19,7 +19,7 @@ namespace InsuranceCompany.Controllers
         }
 
         [HttpGet("{companyId:int}")]
-        public ActionResult GetAllClaimsByCompanyId(int companyId)
+        public async Task<ActionResult> GetAllClaimsByCompanyId(int companyId)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace InsuranceCompany.Controllers
                     return BadRequest("Request is invalid");
                 }
 
-                return Ok(_claimTask.GetAllClaimsByCompanyId(companyId));
+                return Ok(await _claimTask.GetAllClaimsByCompanyId(companyId));
             }
             catch (Exception ex)
             {
@@ -38,7 +38,7 @@ namespace InsuranceCompany.Controllers
 
         [Route("GetClaimByClaimReference")]
         [HttpGet()]
-        public ActionResult GetClaimByClaimReference(string claimReference)
+        public async Task<ActionResult> GetClaimByClaimReference(string claimReference)
         {
             try
             {
@@ -49,12 +49,12 @@ namespace InsuranceCompany.Controllers
 
                 var response = _claimTask.GetClaimByClaimReference(claimReference);
 
-                if (response == null || response.Claims == null)
+                if (response == null || response.Result.Claims == null)
                 {
                     return BadRequest("Claim not found!");
                 }
 
-                return Ok(response);
+                return Ok(await response);
             }
             catch (Exception ex)
             {
@@ -64,16 +64,16 @@ namespace InsuranceCompany.Controllers
 
         [Route("UpdateClaim")]
         [HttpPut]
-        public ActionResult UpdateClaim(UpdateClaimsRequest request)
+        public async Task<ActionResult> UpdateClaim(UpdateClaimsRequest request)
         {
             try
             {
-                if (request == null || request.ClaimReference != request.Claims.ClaimReference)
+                if (request == null || !request.ClaimReference.Equals(request.Claims.ClaimReference, StringComparison.InvariantCultureIgnoreCase))
                 {
                     return BadRequest("claims reference mismatch");
                 }
 
-                return Ok(_claimTask.UpdateClaim(request).Success);
+                return Ok(await _claimTask.UpdateClaim(request));
             }
             catch (Exception ex)
             {

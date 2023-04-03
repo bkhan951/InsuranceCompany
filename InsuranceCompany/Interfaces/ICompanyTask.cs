@@ -5,6 +5,6 @@ namespace InsuranceCompany.Interfaces
 {
     public interface ICompanyTask
     {
-        public CompanyResponse GetCompany(int id);
+        Task<CompanyResponse> GetCompany(int id);
     }
 }

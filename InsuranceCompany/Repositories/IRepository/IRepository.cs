@@ -2,8 +2,8 @@
 {
     public interface IRepository<T>
     {
-        T GetById(int id);
+        Task<T> GetById(int id);
 
-        List<T> List();
+        Task<List<T>> List();
     }
 }
